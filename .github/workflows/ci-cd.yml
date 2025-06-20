@@ -64,13 +64,13 @@ jobs:
           tags: atharrvv/url-shortener:latest
 
       # Deploy to production
-      - name: Deploy to production
-        uses: appleboy/ssh-action@v1
-        with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USERNAME }}
-          password: ${{ secrets.PASSWORD }}
-          script: |
-            docker pull atharrvv/url-shortener:latest
-            docker stop url-shortener || true
-            docker run -d -p 8080:8080 --name url-shortener atharrvv/url-shortener:latest
+      # - name: Deploy to production
+      #   uses: appleboy/ssh-action@v1
+      #   with:
+      #     host: ${{ secrets.HOST }}
+      #     username: ${{ secrets.USERNAME }}
+      #     password: ${{ secrets.PASSWORD }}
+      #     script: |
+      #       docker pull atharrvv/url-shortener:latest
+      #       docker stop url-shortener || true
+      #       docker run -d -p 8080:8080 --name url-shortener atharrvv/url-shortener:latest

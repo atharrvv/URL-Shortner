@@ -87,8 +87,8 @@ setup(
     author=AUTHOR,
     author_email=EMAIL,
     url=URL,
-    packages=find_packages('src', exclude=['tests']),
-    package_dir={'': 'src'},
+    packages=find_packages(exclude=['tests']),
+    # package_dir={'': 'src'},
     # If your package is a single module, use this instead of 'packages':
     # py_modules=['mypackage'],
 

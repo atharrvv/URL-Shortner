@@ -31,6 +31,10 @@ jobs:
         uses: actions/checkout@v4
       - name: Set up Python
         uses: actions/setup-python@v4
+      - name: install powtry
+        run: | 
+          curl -sSL https://install.python-poetry.org | python3 -
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
       - name: Install dependencies
         run: poetry install
       - name: Build

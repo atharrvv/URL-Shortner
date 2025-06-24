@@ -1,49 +1,25 @@
-name: Deploy URL Shortener
+name: URL Shortener CI/CD
 
 on:
-  # Trigger the workflow on push events to the main branch
   push:
     branches:
-      - master
+      - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
-  # Job to build and test the application
-  build-and-test:
+  build:
     runs-on: ubuntu-latest
-    env:
-      # Set environment variables for the job
-      PYTHON_VERSION: 3.9
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Install dependencies
+      - uses: actions/checkout@v3
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.9
+      - name: Install Dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-
-      - name: Run tests
-        run: python -m unittest discover -v
-
-  # Job to build the Docker image and deploy to a container registry
-  deploy:
-    needs: build-and-test
-    runs-on: ubuntu-latest
-    env:
-      # Set environment variables for the job
-      REGISTRY: ghcr.io/atharrvv
-      IMAGE_NAME: url-shortener
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Login to GitHub Container Registry
-        uses: docker/login-action@v1
-        with:
-          username: ${{ secrets.GITHUB_USERNAME }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Build and push Docker image
-        run: |
-          docker build -t eatherv/name .
-          docker push eatherv/name
+      - name: Run Tests
+        run: pytest

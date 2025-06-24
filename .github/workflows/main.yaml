@@ -4,7 +4,7 @@ on:
   # Trigger the workflow on push events to the main branch
   push:
     branches:
-      - main
+      - master
 
 jobs:
   # Job to build and test the application

@@ -1,4 +1,4 @@
-name: URL Shortener CI/CD
+name: URL Shortener
 
 on:
   push:
@@ -23,3 +23,22 @@ jobs:
           pip install -r requirements.txt
       - name: Run Tests
         run: pytest
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.9
+      - name: Create Build Directory
+        run: mkdir -p build
+      - name: Build the Project
+        run: python setup.py sdist bdist_wheel
+      - name: Upload Artifacts to PythonAnywhere
+        uses: pythonanywhere/deploy@v1
+        with:
+          service: production
+          app: my-url-shortener #replace with your app name

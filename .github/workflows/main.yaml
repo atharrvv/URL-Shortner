@@ -1,0 +1,42 @@
+name: URL Shortener CI/CD Pipeline
+
+on:
+  # Trigger the workflow on push and pull request events for main and master branches
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+    branches:
+      - main
+      - master
+
+jobs:
+  test:
+    # Test job
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v4
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Run tests
+        run: python -m unittest discover -v tests
+
+  build:
+    # Build job depends on test job
+    needs: test
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v4
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Build
+        run: python setup.py build
